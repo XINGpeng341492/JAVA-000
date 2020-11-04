@@ -4,12 +4,16 @@ import io.github.kimmking.gateway.filter.HttpRequestFilter;
 import io.github.kimmking.gateway.filter.HttpRequestFilterImpl;
 import io.github.kimmking.gateway.outbound.httpclient4.HttpOutboundHandler;
 import io.github.kimmking.gateway.outbound.okhttp.OkhttpOutboundHandler;
+import io.github.kimmking.gateway.router.HttpEndpointRouter;
+import io.github.kimmking.gateway.router.HttpEndpointRouterImpl;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.util.ReferenceCountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
 
@@ -18,12 +22,17 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
     //private HttpOutboundHandler handler;
     private OkhttpOutboundHandler handler;
     private HttpRequestFilter httpFilter;
-    
-    public HttpInboundHandler(String proxyServer) {
+    private List<String> proxyServerList;
+
+    private HttpEndpointRouter endpointRouter;
+
+
+    public HttpInboundHandler(String proxyServer, List<String> proxyServerList) {
         this.proxyServer = proxyServer;
         //handler = new HttpOutboundHandler(this.proxyServer);
-        handler = new OkhttpOutboundHandler(this.proxyServer);
+        //handler = new OkhttpOutboundHandler(this.proxyServer);
         httpFilter = new HttpRequestFilterImpl();
+        this.proxyServerList = proxyServerList;
     }
     
     @Override
@@ -42,6 +51,10 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
 //                handlerTest(fullRequest, ctx);
 //            }
             // 添加过滤器
+            endpointRouter = new HttpEndpointRouterImpl();
+            String proxyDealByRouter = endpointRouter.route(this.proxyServerList);
+            //handler = new OkhttpOutboundHandler(this.proxyServer);
+            handler = new OkhttpOutboundHandler(proxyDealByRouter);
             httpFilter.filter(fullRequest,ctx);
             handler.handle(fullRequest, ctx);
     
