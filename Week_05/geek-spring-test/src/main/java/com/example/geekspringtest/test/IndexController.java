@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.geekspringtest.config.MyBean;
+import com.example.geekspringtest.mycache.MyCache;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +25,7 @@ public class IndexController {
     private MyBean myBean;
 
     @RequestMapping("/test")
+    @MyCache(seconds = "5")
     public String testIndex(){
         String name = myBean.getName();
         Integer age = myBean.getAge();
@@ -31,5 +33,13 @@ public class IndexController {
         return "indextest";
     }
 
+    @RequestMapping("/test1")
+    @MyCache(open = false, seconds = "15")
+    public String testNoCache(){
+        String name = myBean.getName();
+        Integer age = myBean.getAge();
+        log.info("age:{},name{}",age,name);
+        return "cachetest";
+    }
 
 }
