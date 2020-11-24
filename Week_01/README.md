@@ -5,7 +5,7 @@
 3.自定义一个类加载器
 4.JMM happens before 规则
 5.JVM运行时内存模型
-6.堆、非堆（栈、程序计数器）、堆外（method area、code cache、compressed）
+6.堆、线程栈，非堆（本地方法栈、程序计数器）、堆外（ metaspace、code cache、compressed）
 二、Java进阶
 1.jdk 常用命令：jmap,jinfo,jstack,jcmd ....
 2.图形化工具：Jconsole,JvisualVM ,Jmc 等
