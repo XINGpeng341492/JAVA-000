@@ -1,5 +1,8 @@
 package com.example.week7homework.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.week7homework.entity.Order;
@@ -16,4 +19,6 @@ public interface OrderMapper {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
+
+    int batchInsertOrder(@Param("orderList") List<Order> orderList);
 }

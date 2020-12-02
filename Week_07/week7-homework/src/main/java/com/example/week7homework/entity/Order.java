@@ -14,7 +14,7 @@ public class Order {
 
     private Integer payAmount;
 
-    private Byte payStatus;
+    private Integer payStatus;
 
     private Date payTime;
 

@@ -19,15 +19,15 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from order
+    from train_order
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from order
+    delete from train_order
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.example.week7homework.entity.Order" >
-    insert into order (id, acc_id, goods_id, 
+    insert into train_order (id, acc_id, goods_id,
       pay_amount, pay_status, pay_time, 
       refund_time, create_time, update_time
       )
@@ -37,7 +37,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.example.week7homework.entity.Order" >
-    insert into order
+    insert into train_order
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -98,7 +98,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.example.week7homework.entity.Order" >
-    update order
+    update train_order
     <set >
       <if test="accId != null" >
         acc_id = #{accId,jdbcType=BIGINT},
@@ -128,7 +128,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.week7homework.entity.Order" >
-    update order
+    update train_order
     set acc_id = #{accId,jdbcType=BIGINT},
       goods_id = #{goodsId,jdbcType=BIGINT},
       pay_amount = #{payAmount,jdbcType=INTEGER},
@@ -139,4 +139,21 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <insert id="batchInsertOrder" useGeneratedKeys="true">
+    INSERT INTO train_order
+    (acc_id, goods_id,
+    pay_amount, pay_status, create_time, update_time)
+    VALUES
+    <foreach collection="orderList" separator="," item="item">
+      (
+      #{item.accId},
+      #{item.goodsId},
+      #{item.payAmount},
+      #{item.payStatus},
+      #{item.createTime},
+      #{item.updateTime}
+      )
+    </foreach>
+  </insert>
 </mapper>

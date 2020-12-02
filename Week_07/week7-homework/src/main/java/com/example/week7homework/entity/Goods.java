@@ -14,7 +14,7 @@ public class Goods {
 
     private Integer goodsPrice;
 
-    private Byte pubStatus;
+    private Integer pubStatus;
 
     private Date createTime;
 
