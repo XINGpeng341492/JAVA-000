@@ -29,13 +29,15 @@ public class DataSourceConfig {
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.master")
     public DataSource master() {
-        return DataSourceBuilder.create().build();
+        //return DataSourceBuilder.create().build();
+        return new HikariDataSource();
     }
 
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.slave")
     public DataSource slave() {
-        return DataSourceBuilder.create().build();
+        //return DataSourceBuilder.create().build();
+        return new HikariDataSource();
 
     }
 
