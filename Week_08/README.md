@@ -27,4 +27,4 @@
 4. 迁移成功 ，指定对应订单表的crud 符合预期
 
 ## homework2: 基于hmily TCC或ShardingSphere的Atomikos XA实现一个简单的分布式 事务应用demo（二选一），提交到github  
-1. todo
+1. 刚跑起来hmily的demo 作业二还未开始后续补上
