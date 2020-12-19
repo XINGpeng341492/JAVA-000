@@ -18,8 +18,6 @@
 3. dubbo实践
 
 
-## ss使用参考参考： https://shardingsphere.apache.org/document/legacy/3.x/document/cn/manual/sharding-proxy/
-
 ## homework1 :自定义rpc框架改造
 1. 将客户端的动态代理进行改写。OK
 2. 服务端invoke 改写成泛型加反射 OK
