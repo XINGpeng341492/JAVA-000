@@ -1,12 +1,14 @@
 package com.xp.kid.rpcfx.api;
 
-public class RpcfxRequest {
+public class RpcfxRequest<T> {
 
-  private String serviceClass;
+    private String serviceClass;
 
-  private String method;
+    private String method;
 
-  private Object[] params;
+    private Object[] params;
+
+    private Class<T> serviceClazz;
 
     public String getServiceClass() {
         return serviceClass;
@@ -30,5 +32,13 @@ public class RpcfxRequest {
 
     public void setParams(Object[] params) {
         this.params = params;
+    }
+
+    public Class<T> getServiceClazz() {
+        return serviceClazz;
+    }
+
+    public void setServiceClazz(Class<T> serviceClazz) {
+        this.serviceClazz = serviceClazz;
     }
 }

@@ -54,6 +54,8 @@ public  class RpcAopfx {
 
             RpcfxRequest request = new RpcfxRequest();
             request.setServiceClass(this.serviceClass.getName());
+            //服务端使用泛型加反射执行 入参改造
+            request.setServiceClazz(this.serviceClass);
             request.setMethod(method.getName());
             request.setParams(objects);
 
