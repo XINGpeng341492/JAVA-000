@@ -4,11 +4,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+import org.springframework.http.HttpStatus;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.xp.kid.rpcfx.api.RpcfxRequest;
 import com.xp.kid.rpcfx.api.RpcfxResolver;
 import com.xp.kid.rpcfx.api.RpcfxResponse;
+import com.xp.kid.rpcfx.exception.RpcFxException;
 
 public class RpcfxInvoker {
 
@@ -42,7 +45,8 @@ public class RpcfxInvoker {
             // 2.封装一个统一的RpcfxException
             // 客户端也需要判断异常
             e.printStackTrace();
-            response.setException(e);
+            //response.setException(e);
+            response.setException(new RpcFxException(HttpStatus.INTERNAL_SERVER_ERROR.value(),"fail"));
             response.setStatus(false);
             return response;
         }
