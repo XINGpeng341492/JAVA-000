@@ -49,4 +49,27 @@ public class UserServiceImpl implements UserService {
         return userMapper.list();
     }
 
+    @Override
+    public String buy(Integer userId ,Integer num) {
+        String key  = "key:" + userId;
+        log.info("locKey===:{}",key);
+        boolean lockFlag = redisTemplate.setNX(key,1,5);
+        if (lockFlag) {
+            Object stock =  redisTemplate.get("stock");
+            if (null != stock) {
+                Integer stockNum = (Integer) stock;
+                log.info("stockNum===:{}",stockNum);
+                if(stockNum.intValue() <= 0) {
+                    return "库存不足";
+                } else {
+                    redisTemplate.decr("stock",num);
+                    return "success";
+                }
+            }
+        } else {
+            return "too many request";
+        }
+        return "fail";
+    }
+
 }

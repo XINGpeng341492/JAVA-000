@@ -14,4 +14,6 @@ public interface UserService {
 
     List<User> list();
 
+    String buy(Integer userId,Integer num);
+
 }
