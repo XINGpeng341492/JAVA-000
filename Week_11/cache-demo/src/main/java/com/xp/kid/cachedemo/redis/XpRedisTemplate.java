@@ -135,5 +135,67 @@ public class XpRedisTemplate <K,V>{
 
 
 
+    /**
+     * set not exist, 当 key 不存在，设置成功 (简陋的分布式锁)
+     *
+     * @param key     键
+     * @param value   值
+     * @return
+     */
+    public Boolean setNX(K key, V value, long time) {
+        try {
+            Boolean result = redisTemplate.opsForValue().setIfAbsent(key, value);
+            if (result && time > 0) {
+                expire(key, time);
+            }
+            return result;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        }
+    }
+
+
+    /**
+     * 递增
+     *
+     * @param key   键
+     * @param delta 要增加几(大于0)
+     * @return
+     */
+    public Long incr(K key, long delta) {
+        if (delta < 0) {
+            throw new RuntimeException("递增因子必须大于0");
+        }
+        return redisTemplate.opsForValue().increment(key, delta);
+    }
+
+    public Long incr(K key, long delta, long time) {
+        if (delta < 0) {
+            throw new RuntimeException("递增因子必须大于0");
+        }
+        Long l = incr(key, delta);
+        if (time > 0) {
+            expire(key, time);
+        }
+        return l;
+    }
+
+
+    /**
+     * 递减
+     *
+     * @param key   键
+     * @param delta 要减少几(小于0)
+     * @return
+     */
+    public Long decr(K key, long delta) {
+        if (delta < 0) {
+            throw new RuntimeException("递减因子必须大于0");
+        }
+        return redisTemplate.opsForValue().increment(key, -delta);
+    }
+
+
 
 }

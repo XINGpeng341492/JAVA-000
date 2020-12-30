@@ -25,6 +25,17 @@ public class UserServiceImpl implements UserService {
     // 开启spring cache
     //@Cacheable(key="#id",value="userCache")
     public User find(int id) {
+        String key = String.format("xptest:id:%s",id);
+        log.info("locKey===:{}",key);
+        boolean lockFlag = redisTemplate.setNX(key,1,10);
+        if (lockFlag) {
+            log.info("lock success");
+        } else {
+            log.info("lock fail");
+        }
+
+
+
         redisTemplate.set("aaaa","testcache");
         String str =  (String)redisTemplate.get("aaaa");
         log.info("cache===:{}",str);
