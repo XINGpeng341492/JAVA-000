@@ -16,7 +16,9 @@
 4. slaveof 172.17.0.2 6379 (分别在6381，6382中执行该命令设置 6380 为主)
 5. 验证主从配置
 
-    127.0.0.1:6380> info replication
+    
+```
+ 	127.0.0.1:6380> info replication
     # Replication
 	role:master
 	connected_slaves:2
@@ -30,14 +32,20 @@
 	repl_backlog_size:1048576
 	repl_backlog_first_byte_offset:1
 	repl_backlog_histlen:2253
+  ```
 
    
 
 
 
 ## sentinel配置
-1. 
-
+1. docker exec -ti containerid /bin/bash 直接进入容器中进行修改配置
+2. 修改sentinel.conf
+	```
+   sentinel monitor mymaster 172.17.0.2 6379 1
+ 	```
+3. 使用 redis-sentinel /sentinel.conf 启动Redis哨兵监控
+4. 测试验证 关闭某一台看对应的主从信息，重新启动后变为slave
 
 ## 集群配置
 1. 
